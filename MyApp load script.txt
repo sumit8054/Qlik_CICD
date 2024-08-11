@@ -1,0 +1,527 @@
+///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+// fieldcommentmap:
+// mapping LOAD Field, 
+//      Comment
+// FROM
+// [C:\Users\etk\Documents\Customer Sales Demo\MetaData.xlsx]
+// (ooxml, embedded labels, table is Sheet1);
+
+// // The syntax 'comment fields using ...' will run all of the fields in the document data model against the comment mapping table. If there is no match (field name to map column 1
+// // then the field gets no comment.
+
+// comment fields using fieldcommentmap;
+
+
+LOAD
+    Name as State,
+    Area
+FROM 'lib://QVDs/USStatesPoly.xlsx'
+(ooxml, embedded labels, table is Sheet1);
+
+TAG FIELDS "Area" WITH $geopolygon;
+
+LOAD
+    Metric
+FROM 'lib://QVDs/Metrics.xlsx'
+(ooxml, embedded labels, table is Sheet1);
+
+
+
+
+
+
+
+///$tab Section
+LOAD
+    BasketItem,
+    "Basket Produce Line",
+    "Basket Product Group Desc",
+    "Basket Product Line Desc",
+    "Basket Product Sub Group Desc",
+    "Basket Product Type Desc",
+    "Basket Item Desc"
+FROM 'lib://QVDs/Customer Good Sales DataBasket.QVD'
+(qvd);
+
+LOAD
+    DummyField,
+    BudgetInput2,
+    BudgetYear,
+    BudgetPeriod,
+    Type,
+    "Budget Amount",
+    "Actual Amount",
+    BudKey,
+    BudgetInput
+FROM 'lib://QVDs/Customer Good Sales DataBudget3.QVD'
+(qvd);
+
+LOAD
+    BudgetPeriod,
+    textBudgetPeriod
+FROM 'lib://QVDs/Customer Good Sales DataBudgetPeriod.QVD'
+(qvd);
+
+LOAD
+    CustKey,
+    Cust_Increasing,
+    Cust_Decreasing,
+    Cust_Steady,
+    Cust_New,
+    Cust_Lost,
+    Cust_Other,
+    "Customer Growth",
+    "Customer Growth Percent"
+FROM 'lib://QVDs/Customer Good Sales DataCustomerClassification.QVD'
+(qvd);
+
+
+
+
+
+
+///$tab Section 2
+LOAD
+    State,
+   // "Map City",
+    "Customer X",
+    "Customer Y"
+FROM 'lib://QVDs/Customer Good Sales DataCustomerMapCoordinates.QVD'
+(qvd);
+
+LOAD
+    DateKey,
+    "Day",
+    "Month",
+    Quarter,
+    "Week",
+    "Week Ending Date",
+    "Weekday",
+    "Year",
+    YearMonth
+FROM 'lib://QVDs/Customer Good Sales DataDates2.QVD'
+(qvd);
+
+LOAD
+    AggKey,
+    "YTD Sales Amount",
+    "LY YTD Sales Amount",
+    "TM Sales Amount",
+    "LY TM Sales Amount",
+    "LY Tot Sales Amount",
+    "YTD Sales Margin Amount",
+    "LY YTD Sales Margin Amount",
+    "TM Sales Margin Amount",
+    "LY TM Sales Margin Amount",
+    "LY Tot Sales Margin Amount",
+    "Current Open Amount",
+    "Current BackOrder Amount",
+    "Current Backlog Amount"
+FROM 'lib://QVDs/Customer Good Sales DataFinalAggSales.QVD'
+(qvd);
+
+LOAD
+    "Business Family Name",
+    "Business Family"
+FROM 'lib://QVDs/Customer Good Sales DataFinalBusinessFamily.QVD'
+(qvd);
+
+LOAD
+    "Channel Name",
+    Channel
+FROM 'lib://QVDs/Customer Good Sales DataFinalChannel.QVD'
+(qvd);
+
+LOAD
+    "Address Number",
+    "Customer Address 1",
+    "Customer Address 2",
+    "Customer Address 3",
+    "Customer Address 4",
+    "Zip Code",
+    City,
+    County,
+    State,
+    Country
+FROM 'lib://QVDs/Customer Good Sales DataFinalCustomerAddress.QVD'
+(qvd);
+
+LOAD
+    Division,
+    "Business Family",
+    "Customer Type",
+    Channel,
+    "Category Code 5",
+    "Zone Mgr",
+    "Category Code 7",
+    "Regional Sales Mgr",
+    "Distribution Channel Mgr",
+    "Region Code",
+    "Price Discount Cde 4",
+    "Line of Business",
+    "Sales Volume",
+    Customer,
+    "Address Number",
+    "Customer Number",
+    Consolidated,
+    "Search Type",
+    Phone,
+    "Business Unit",
+    "SIC Code",
+    "Tax Certificate"
+FROM 'lib://QVDs/Customer Good Sales DataFinalCustomers.QVD'
+(qvd);
+LOAD
+    "Customer Type Name",
+    "Customer Type"
+FROM 'lib://QVDs/Customer Good Sales DataFinalCustomerType.QVD'
+(qvd);
+
+
+
+
+
+///$tab Section 3
+LOAD
+    "Distribution Channel Mgr Name",
+    "Distribution Channel Mgr"
+FROM 'lib://QVDs/Customer Good Sales DataFinalDistribution.QVD'
+(qvd);
+
+LOAD
+    "Division Name",
+    Division
+FROM 'lib://QVDs/Customer Good Sales DataFinalDivision.QVD'
+(qvd);
+
+LOAD
+    "Family Class Desc",
+    "Family Class"
+FROM 'lib://QVDs/Customer Good Sales DataFinalFamilyClass.QVD'
+(qvd);
+
+LOAD
+    "Item Branch 3rd Item Number",
+    "Item Branch G/L Category",
+    "Short Name",
+    "Item Branch 2nd Item Number",
+    "Item-Branch Key",
+    "Item Branch Reorder Quantity",
+    Horsepower,
+    "Item Branch Category Code 6",
+    "Item Branch Category Code 7",
+    "Item Branch Primary Supplier"
+FROM 'lib://QVDs/Customer Good Sales DataFinalItemBranch.QVD'
+(qvd);
+
+LOAD
+    "Item Class Desc",
+    "Item Class"
+FROM 'lib://QVDs/Customer Good Sales DataFinalItemClass.QVD'
+(qvd);
+
+LOAD
+    "Short Name",
+    "Item Count",
+    "Product Price Group",
+    "Product Department",
+    "Product Line",
+    "Product Group",
+    "Product Type",
+    "Master Planning Family",
+    "Product Sub Group"
+FROM 'lib://QVDs/Customer Good Sales DataFinalItemMaster.QVD'
+(qvd);
+
+LOAD
+    "Master Planning Family Desc",
+    "Master Planning Family"
+FROM 'lib://QVDs/Customer Good Sales DataFinalMasterPlanning.QVD'
+(qvd);
+
+
+///$tab Section 4
+LOAD
+    "Product Group Desc",
+    "Product Group"
+FROM 'lib://QVDs/Customer Good Sales DataFinalProductGroup.QVD'
+(qvd);
+
+LOAD
+    "Product Line Desc",
+    "Product Line"
+FROM 'lib://QVDs/Customer Good Sales DataFinalProductLine.QVD'
+(qvd);
+
+LOAD
+    "Product Sub Group Desc",
+    "Product Sub Group"
+FROM 'lib://QVDs/Customer Good Sales DataFinalProductSubGroup.QVD'
+(qvd);
+
+LOAD
+    "Product Type Desc",
+    "Product Type"
+FROM 'lib://QVDs/Customer Good Sales DataFinalProductType.QVD'
+(qvd);
+
+LOAD
+    "Regional Sales Mgr Name",
+    "Regional Sales Mgr"
+FROM 'lib://QVDs/Customer Good Sales DataFinalRegional.QVD'
+(qvd);
+
+LOAD
+    "Order Number",
+    "Address Number Header",
+    "Order Gross Amount",
+    "Order Type Header",
+    "Business Unit Order Header",
+    "Order Date Header",
+    "Hold Orders Code Header",
+    "Company Number Header",
+    "Stop Code Header",
+    "Zone Code Header",
+    "Hold Code Header",
+    "Ship To Address Header",
+    "Parent Address Number Header",
+    "Orderby Header",
+    "Freight Code Header"
+FROM 'lib://QVDs/Customer Good Sales DataFinalSalesHeader.QVD'
+(qvd);
+
+LOAD
+    "Region Name",
+    "Region Code"
+FROM 'lib://QVDs/Customer Good Sales DataFinalSalesRegion.QVD'
+(qvd);
+
+LOAD
+    "Sales Rep",
+    "Sales Rep Name"
+FROM 'lib://QVDs/Customer Good Sales DataFinalSalesRep.QVD'
+(qvd);
+
+LOAD
+    "Ship To",
+    "Ship To Customer Address 1",
+    "Ship To Customer Address 2",
+    "Ship To Customer Address 3",
+    "Ship To Customer Address 4",
+    "Ship To Zip Code",
+    "Ship To City",
+    "Ship To County",
+    "Ship To State",
+    "Ship To Country",
+    "Ship To Zip Code Short"
+FROM 'lib://QVDs/Customer Good Sales DataFinalShipToAddress2.QVD'
+(qvd);
+
+LOAD
+    BudKey,
+    "YTD Budget Amount",
+    "TM Budget Amount"
+FROM 'lib://QVDs/Customer Good Sales DataFinalYTDBudget.QVD'
+(qvd);
+
+LOAD
+    "Zone Mgr Name",
+    "Zone Mgr"
+FROM 'lib://QVDs/Customer Good Sales DataFinalZone.QVD'
+(qvd);
+
+LOAD
+    Fiscal,
+    FiscalRank
+FROM 'lib://QVDs/Customer Good Sales DataFiscalRank.QVD'
+(qvd);
+
+LOAD
+    BasketItem,
+    "Order Number"
+FROM 'lib://QVDs/Customer Good Sales DatalinkBasket.QVD'
+(qvd);
+
+LOAD
+    maptype
+FROM 'lib://QVDs/Customer Good Sales Datamaptype.QVD'
+(qvd);
+
+LOAD
+    "Order Number",
+    OrderCount
+FROM 'lib://QVDs/Customer Good Sales DataOrderCount.QVD'
+(qvd);
+
+LOAD
+    "Order Date 2",
+    OrderYear,
+    OrderMonth,
+    OrderQuarter,
+    "Order Date Header"
+FROM 'lib://QVDs/Customer Good Sales DataOrderDates1.QVD'
+(qvd);
+
+LOAD
+    State,
+    state_abbr,
+    state_name
+FROM 'lib://QVDs/Customer Good Sales DataProvince.QVD'
+(qvd);
+
+LOAD
+    NoOfItem,
+    MaxNoOfItem,
+    DateKey,
+    "Order Number",
+    "Item-Branch Key"
+FROM 'lib://QVDs/Customer Good Sales DataSales.QVD'
+(qvd);
+
+LOAD
+    "Sales by Customer by YearQuarter",
+    Low,
+    High
+FROM 'lib://QVDs/Customer Good Sales DataSalesdecile-1.QVD'
+(qvd);
+
+LOAD
+    "Address Number",
+    BudKey,
+    AggKey,
+    "Ship To",
+    "Sales Rep",
+    "Item Class",
+    CustKey,
+    "Family Class",
+    "Sales Amount Based on List Price",
+    "Line Desc 1",
+    "Invoice Number",
+    "Backlog Amount",
+    "Sales Quantity",
+    "Qty Backordered",
+    "Actual Delivery Date",
+    "Last Status",
+    "Number Of Days Late",
+    "Doc Type",
+    "Order Status Primary",
+    "Order Status",
+    "Line Number",
+    "Item Number",
+    "Line Type",
+    "List Price",
+    "Sales Cost Amount",
+    "Order Margin",
+    "Open Order Cost Amount",
+    "Discount Amount",
+    "Invoice Date",
+    "Company Number Detail",
+    "Payment Terms",
+    "Sales Unit Cost Price",
+    "Open Order Quantity",
+    "Unit Price",
+    "Business Unit Details",
+    "Next Status",
+    "Promised Delivery Date",
+    "Sales Margin Amount",
+    "U/M",
+    "Parent Address Number",
+    "Open Order Amount",
+    "Sales Amount",
+    "BackOrder Amount",
+    "Sales Price",
+    "Address Order Number",
+    "Late Shipment",
+    "Order Type Detail",
+    Shipments,
+    DateKey,
+    "Order Number",
+    "Item-Branch Key"
+FROM 'lib://QVDs/Customer Good Sales DataSalesDetails.QVD'
+(qvd);
+
+LOAD
+    "Ship To State",
+   // "Map Ship To City",
+    "Ship To X",
+    "Ship To Y"
+FROM 'lib://QVDs/Customer Good Sales DataShipToMapCoordinates.QVD'
+(qvd);
+
+LOAD *, GeoMakePoint(latitude, longitude) as QlikPoint;
+LOAD
+    "Ship To Zip Code Short",
+    latitude,
+    longitude
+FROM 'lib://QVDs/Customer Good Sales DataZipData.QVD'
+(qvd);
+LOAD
+    Metric
+FROM 'lib://QVDs/Metrics.xlsx'
+(ooxml, embedded labels, table is Sheet1);
+
+
+
+
+
+
+///$tab Employee Performance.xlsx
+LOAD
+    "Sales Rep Name",
+    "Sales Rep Performance"
+FROM 'lib://Employee Performance 7/Employee Performance.xlsx'
+(ooxml, embedded labels, table is Sheet1);
+
+///$tab Distribution List
+Replace LOAD
+    "Name" AS [DL_DISTRIBUTION_RECIPIENT_NAME],
+    "Email" AS [DL_DISTRIBUTION_EMAIL],
+    SubField([Filters],',') AS [DL_DISTRIBUTION_FILTERS],
+    SubField([Groups],',') AS [DL_DISTRIBUTION_GROUP_NAMES]
+FROM "lib://:DataFiles/Recipients.xlsx"
+(ooxml, embedded labels, table is DL_DISTRIBUTION_SVC_USERS_QCS);
+
+TempGroups:
+  REPLACE LOAD
+      *
+    FROM "lib://:DataFiles/Recipients.xlsx"
+    (ooxml, embedded labels, table is DL_DISTRIBUTION_SVC_GROUPS_QCS);
+
+let vEnabledFieldNo = FieldNumber('Enabled', 'TempGroups');
+
+if (vEnabledFieldNo > 0) then
+    DL_DISTRIBUTION_SVC_GROUPS_QCS:
+    REPLACE LOAD
+        "Name" AS [DL_DISTRIBUTION_GROUP_NAMES],
+        "Description" AS [DL_DISTRIBUTION_GROUP_DESCRIPTION],
+        "Enabled" AS [DL_DISTRIBUTION_GROUP_ENABLED]
+    Resident TempGroups;
+else
+
+    DL_DISTRIBUTION_SVC_GROUPS_QCS:
+    REPLACE LOAD
+        "Name" AS [DL_DISTRIBUTION_GROUP_NAMES],
+        "Description" AS [DL_DISTRIBUTION_GROUP_DESCRIPTION],
+        1 AS [DL_DISTRIBUTION_GROUP_ENABLED]
+    Resident TempGroups;
+end if
+
+Drop Table TempGroups;
+
+tag field DL_DISTRIBUTION_RECIPIENT_NAME with 'DL_DISTRIBUTION_SVC__recipientName';
+tag field DL_DISTRIBUTION_EMAIL with 'DL_DISTRIBUTION_SVC__recipientEmail';
+tag field DL_DISTRIBUTION_FILTERS with 'DL_DISTRIBUTION_SVC__recipientFilters';
+tag field DL_DISTRIBUTION_GROUP_NAMES with 'DL_DISTRIBUTION_SVC__groupsName';
+tag field DL_DISTRIBUTION_GROUP_DESCRIPTION with 'DL_DISTRIBUTION_SVC__groupDescription';
+tag field DL_DISTRIBUTION_GROUP_ENABLED with 'DL_DISTRIBUTION_SVC__groupEnabled';
